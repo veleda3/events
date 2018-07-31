@@ -1,0 +1,19 @@
+@import 'variables.scss';
+@import 'header/header.scss';
+
+
+*, :after, :before {
+    box-sizing: inherit;
+}
+
+div {
+    display: block;
+}
+
+img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
