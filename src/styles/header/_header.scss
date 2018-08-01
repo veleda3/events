@@ -1,0 +1,105 @@
+@import '../variables.scss';
+
+nav, section {
+    display: block;
+}
+
+.Header {
+    width: 100%;
+    background-color: $main-white;
+    border-top: 4px solid $light-white;
+
+
+    .Header-row {
+        max-width: 64rem;
+        margin-right: auto;
+        margin-left: auto;
+        position: relative;
+        height: 96px;
+    }
+
+    .Header-menu {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        left: 28px;
+        width: 16px;
+        height: 12px;
+        cursor: pointer;
+        background-color: #fff;
+    }
+
+    .Header-leftSide .Header-navLink:not(:last-child) {
+        width: 33.33%;
+        text-align: left;
+    }
+
+    .Header-rightSide .Header-navLink:not(:last-child) {
+        width: 33.33%;
+        text-align: left;
+    }
+
+    .Header-logo {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    svg {
+        width: 195 !important;
+        height: 90 !important;
+    }
+}
+
+
+
+
+@media print, screen and (min-width: 64em) {
+
+    .Header-row {
+        height: auto;
+    }
+
+    .Header-menu {
+        display: none
+    }
+
+    .Header-navLink {
+        display: inline-block;
+        font-family: Open Sans,Arial,sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-size: 10px;
+        margin-top: 78px;
+        margin-bottom: 48px;
+        color: $txtDark;
+    }
+
+    .Header-leftSide {
+        width: 20%;
+        float: left;
+        text-align: left;
+    }
+
+    .Header-rightSide {
+        width: 41.66667%;
+        float: right;
+        text-align: right;
+    }
+}
+
+@media print, screen and (min-width: 40em) {
+    .Header-leftSide {
+        padding-right: .75rem;
+        padding-left: .75rem;
+    }
+    .Header-rightSide {
+        padding-right: .75rem;
+        padding-left: .75rem;
+    }
+}
+
+
