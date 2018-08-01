@@ -19,7 +19,7 @@ export const Header = () => {
                     </a>
                 </div>
                 <a href="" className="Header-logoLink">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Chevron_demo.svg" className="Header-logo" alt="Mayflower Logo" />
+                <img src="https://cdn.mayflowervenues.com/img/mayflower-logo.svg" className="Header-logo" alt="Mayflower Logo" />
                 </a>
                 <div className="Header-rightSide">
                     <a href="" className="Header-navLink" rel="nofollow">

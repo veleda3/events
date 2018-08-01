@@ -17,3 +17,10 @@ img {
     height: auto;
     -ms-interpolation-mode: bicubic;
 }
+
+a {
+    line-height: inherit;
+    color: $darkOrange;
+    text-decoration: none;
+    cursor: pointer;
+}

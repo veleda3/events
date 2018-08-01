@@ -21,16 +21,15 @@ nav, section {
     height: 12px;
     cursor: pointer;
     background-color: #fff; }
-  .Header .Header-leftSide {
-    width: 20%;
-    float: left;
+  .Header .Header-leftSide .Header-navLink:not(:last-child) {
+    width: 33.33%;
     text-align: left; }
   .Header .Header-rightSide .Header-navLink:not(:last-child) {
     width: 33.33%;
     text-align: left; }
   .Header .Header-logo {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
@@ -44,16 +43,15 @@ nav, section {
   .Header-menu {
     display: none; }
   .Header-navLink {
-    font-size: 12px;
     display: inline-block;
     font-family: Open Sans,Arial,sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.2px;
+    font-size: 10px;
     margin-top: 78px;
     margin-bottom: 48px;
-    margin-left: 10px;
-    color: #ad8763; }
+    color: #484848; }
   .Header-leftSide {
     width: 20%;
     float: left;
@@ -83,3 +81,9 @@ img {
   max-width: 100%;
   height: auto;
   -ms-interpolation-mode: bicubic; }
+
+a {
+  line-height: inherit;
+  color: #d93900;
+  text-decoration: none;
+  cursor: pointer; }
