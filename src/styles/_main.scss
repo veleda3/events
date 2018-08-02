@@ -1,5 +1,6 @@
 @import 'variables.scss';
 @import 'header/header.scss';
+@import 'rental-images/imageRentals.scss';
 
 
 *, :after, :before {
@@ -23,4 +24,11 @@ a {
     color: $darkOrange;
     text-decoration: none;
     cursor: pointer;
+}
+
+.page-title {
+    font-size: 30px;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
