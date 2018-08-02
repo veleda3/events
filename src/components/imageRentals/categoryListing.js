@@ -1,52 +1,109 @@
 import React from 'react'
-import HTML5Backend from 'react-dnd-html5-backend'
 import Card from './imageCard'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+const grid = 8;
 
-const update = require('immutability-helper');
+const getListStyle = isDraggingOver => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    display: 'flex',
+    padding: grid,
+    overflow: 'auto',
+});
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    margin: `0 ${grid}px 0 0`,
+  
+    // change background colour if dragging
+    background: isDragging ? 'lightgreen' : 'grey',
+  
+    // styles we need to apply on draggables
+    ...draggableStyle,
+  });
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+  
+    return result;
+  };
+
 
 export default class CategoryListing extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            cards: this.props.images
+            cards: {}
         }  
-    this.removeImage = this.removeImage.bind(this)
+        this.onDragEnd = this.onDragEnd.bind(this)
+    }
+
+    componentWillMount() {
+        this.setState({cards: this.props.images});
     }
     
-
-    moveCard = (dragIndex, hoverIndex) => {
-        const { cards } = this.state
-        const dragCard = cards[dragIndex]
-        this.setState(
-            update(this.state, {
-                cards: {
-                $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
-                },
-            }),
-        )
+    onDragEnd(result) {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+    
+        const items = reorder(
+            this.state.cards,
+            result.source.index,
+            result.destination.index
+        );
     }
-
+    
     renderImages() {
-        const {profileImage} = this.props
-        return this.props.images.map((image, index) => {
-            return  <Card 
-                        key={`image-${index}`}  
-                        image={image.image}
-                        description={image.description}
-                        Ranking={image.Ranking}
-                        createdAt={image.createdAt}
-                        profileImage={profileImage}
-                        moveCard={this.moveCard}
-                        removeImage={() => this.removeImage(image)}
-                    />
-            })
-    }
+        const {profileImage, images, removeImage} = this.props
 
-    removeImage(e) {
-        this.setState({cards: this.state.cards.filter( image => { 
-            return image !== e 
-        })});
+        return (
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="droppable" direction="horizontal">
+                    {(provided, snapshot) => (
+                    <div
+                        ref={provided.innerRef}
+                        
+                        className={'row'}
+                    >
+                        {images.map((image, index) => (
+                            <Draggable key={image.id} draggableId={image.id} index={index}>
+                                {(provided, snapshot) => (
+                                    <div 
+                                        ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={getItemStyle(
+                                                snapshot.isDragging,
+                                                provided.draggableProps.style
+                                            )}
+                                    >
+                                    <img className='card-img-top' src={image} alt=''></img>
+                                        <Card 
+                                            key={`image-${index}`}  
+                                            image={image.image}
+                                            description={image.description}
+                                            Ranking={image.Ranking}
+                                            createdAt={image.createdAt}
+                                            profileImage={profileImage}
+                                            moveCard={this.moveCard}
+                                            imageInfo={image}
+                                            removeImage={removeImage}
+                                        />
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
+                    </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        )    
     }
 
     render() {
