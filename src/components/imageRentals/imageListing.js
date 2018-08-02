@@ -10,6 +10,21 @@ export default class ImageListing extends Component {
         this.state = {
             categories: imageData
         } 
+        this.removeImage = this.removeImage.bind(this)
+    }
+
+    removeImage(e) {
+        const {categories} = this.state
+        categories.filter(category => category.category == e.category).map( category => {    
+                const noImageInCategory = category.images.filter( image => image !== e )
+                const newCategory = {category: e.category, images: noImageInCategory}
+                const unchangedCategories = categories.filter(singleCategory => 
+                singleCategory.category !== newCategory.category)
+                this.setState(
+                    {categories: [...unchangedCategories, newCategory]}
+                )
+            }
+        )       
     }
 
     renderCategories(){
@@ -21,6 +36,7 @@ export default class ImageListing extends Component {
                         category={images.category}
                         images={images.images}
                         profileImage={images.category === 'Profile' ? true:false}
+                        removeImage={this.removeImage}
                     />
                 </div>
             )

@@ -18,7 +18,7 @@ export const imageData = [
         images: [
             {
                 id: 2,
-                category: "Home Rental",
+                category: "Home Rentals",
                 image: "http://via.placeholder.com/350x250",
                 description: "Very nice apartment home rental",
                 Ranking: 10,
@@ -26,7 +26,7 @@ export const imageData = [
             },
             {
                 id: 3,
-                category: "Home Rental",
+                category: "Home Rentals",
                 image: "http://via.placeholder.com/350x250",
                 description: "Very nice apartment home rental",
                 Ranking: 25,
@@ -34,7 +34,7 @@ export const imageData = [
             },
             {
                 id: 4,
-                category: "Home Rental",
+                category: "Home Rentals",
                 image: "http://via.placeholder.com/350x250",
                 description: "Very nice apartment home rental",
                 Ranking: 16,
