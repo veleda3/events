@@ -1,6 +1,8 @@
 import React from 'react'
 import Card from './imageCard'
+import {connect} from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import * as actions from '../../redux/actions/imagesActions'
 
 const grid = 8;
 
@@ -27,25 +29,22 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
     return result;
   };
 
-
-export default class CategoryListing extends React.Component {
+class CategoryListing extends React.Component {
     constructor(props){
-        super(props)
-        this.state = {
-            cards: {}
-        }  
+        super(props) 
         this.onDragEnd = this.onDragEnd.bind(this)
+
     }
 
     componentWillMount() {
-        this.setState({cards: this.props.images});
+        this.props.getCategory(this.props.categoryInfo)
     }
     
     onDragEnd(result) {
+        debugger
         // dropped outside the list
         if (!result.destination) {
             return;
@@ -59,18 +58,17 @@ export default class CategoryListing extends React.Component {
     }
     
     renderImages() {
-        const {profileImage, images, removeImage} = this.props
+        const {profileImage, images, removeImage, saveDescription, category} = this.props
 
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
                     {(provided, snapshot) => (
                     <div
-                        ref={provided.innerRef}
-                        
+                        ref={provided.innerRef}   
                         className={'row'}
                     >
-                        {images.map((image, index) => (
+                        {category.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div 
@@ -93,6 +91,7 @@ export default class CategoryListing extends React.Component {
                                             moveCard={this.moveCard}
                                             imageInfo={image}
                                             removeImage={removeImage}
+                                            saveDescription={saveDescription}
                                         />
                                     </div>
                                 )}
@@ -119,3 +118,8 @@ export default class CategoryListing extends React.Component {
     }
 }
 
+const mapStateToProps = ({category}) => {
+    return {category}
+}
+
+export default connect(mapStateToProps, actions)(CategoryListing)
