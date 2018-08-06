@@ -8,9 +8,10 @@ class Card extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editing: false, description: ''}
+        this.saveDescription = this.saveDescription.bind(this)
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {description} = this.props
         this.setState({description})
     }
@@ -19,16 +20,19 @@ class Card extends React.Component {
         this.setState({editing: true, cache: this.state.description});
     }
     
+    saveDescription(e) {
+        e.preventDefault();
+        this.setState({editing: false, description: this.state.cache, cache: undefined})
+    }
 
     cancel(e) {
         e.preventDefault();
         this.setState({editing: false, cache: undefined});
     }
 
-    handleChange(e) {
-        var value = e.target.value;
-        this.setState({cache: value});
-    }
+    handleChange(e) { 
+        this.setState({cache: e.target.value})
+      }
 
     renderDisplay() {
         return (
@@ -40,12 +44,13 @@ class Card extends React.Component {
     }
     
     renderForm() {
-        const {saveDescription, imageInfo} = this.props
+        const {mageInfo} = this.props
+        const {description} = this.state
         return (
             <div>
                 <form>
-                <textarea name="" id="" cols="20" rows="1" value={this.state.cache} onChange={this.handleChange.bind(this)}></textarea>
-                <button onClick={saveDescription(imageInfo)}>Save</button>
+                <textarea name="" id="" cols="30" rows="3" value={this.state.cache} onChange={this.handleChange.bind(this)}></textarea>
+                <button onClick={this.saveDescription}>Save</button>
                     <button onClick={this.cancel.bind(this)}>Cancel</button>
                 </form>
             </div>

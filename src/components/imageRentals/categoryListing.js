@@ -26,40 +26,48 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   });
 
   const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
+    const result = Array.from(list.images);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-    return result;
+  
+    return {category: list.category, images: result};
   };
 
 class CategoryListing extends React.Component {
     constructor(props){
         super(props) 
+        this.state = {
+            category: this.props.categoryInfo
+        }
         this.onDragEnd = this.onDragEnd.bind(this)
-
+        this.removeImage = this.removeImage.bind(this)
+        
     }
 
-    componentWillMount() {
-        this.props.getCategory(this.props.categoryInfo)
+    removeImage(e) {
+        const {category} = this.state
+                const noImageInCategory = category.images.filter( image => image !== e )
+                this.setState(
+                    {category: {category: category.category, images: noImageInCategory}}
+                )     
     }
     
     onDragEnd(result) {
-        debugger
         // dropped outside the list
         if (!result.destination) {
             return;
         }
-    
         const items = reorder(
-            this.state.cards,
+            this.state.category,
             result.source.index,
             result.destination.index
         );
+        this.setState({category: items})
     }
     
     renderImages() {
-        const {profileImage, images, removeImage, saveDescription, category} = this.props
-
+        const {profileImage, saveDescription, handleDescriptionChange} = this.props
+        const {category} = this.state
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
@@ -68,7 +76,7 @@ class CategoryListing extends React.Component {
                         ref={provided.innerRef}   
                         className={'row'}
                     >
-                        {category.map((image, index) => (
+                        {category.images.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div 
@@ -90,8 +98,9 @@ class CategoryListing extends React.Component {
                                             profileImage={profileImage}
                                             moveCard={this.moveCard}
                                             imageInfo={image}
-                                            removeImage={removeImage}
+                                            removeImage={this.removeImage}
                                             saveDescription={saveDescription}
+                                            handleDescriptionChange={handleDescriptionChange}
                                         />
                                     </div>
                                 )}

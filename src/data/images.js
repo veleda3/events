@@ -40,13 +40,37 @@ export const imageData = [
                 Ranking: 16,
                 createdAt: "7/25/2018"
             },
+            {
+                id: 5,
+                category: "Home Rentals",
+                image: "http://via.placeholder.com/350x250",
+                description: "Very nice apartment home rental",
+                Ranking: 10,
+                createdAt: "7/25/2018"
+            },
+            {
+                id: 6,
+                category: "Home Rentals",
+                image: "http://via.placeholder.com/350x250",
+                description: "Very nice apartment home rental",
+                Ranking: 25,
+                createdAt: "7/28/2018"
+            },
+            {
+                id: 7,
+                category: "Home Rentals",
+                image: "http://via.placeholder.com/350x250",
+                description: "Very nice apartment home rental",
+                Ranking: 16,
+                createdAt: "7/25/2018"
+            },
         ]
     },
     {
         category: "Planning",
         images: [
             {
-                id: 5,
+                id: 8,
                 category: "Planning",
                 image: "http://via.placeholder.com/350x250",
                 description: "Very nice apartment planing",
@@ -54,7 +78,7 @@ export const imageData = [
                 createdAt: "7/25/2018"
             },
             {
-                id: 6,
+                id: 9,
                 category: "Planning",
                 image: "http://via.placeholder.com/350x250",
                 description: "Very nice apartment planing",

@@ -7,29 +7,43 @@ import CategoryListing from './categoryListing'
 
 
 class ImageListing extends Component {
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            categories: [],
+            description: ''
+        }
+        this.removeImage = this.removeImage.bind(this)
+    }
 
     componentDidMount() {
         this.props.getCategories()
+        this.setState({categories: imageData})
     }
 
-    saveDescription(e) {
-        const {categories} = this.props
-            categories.filter(category => category.category == e.category).map( category => {
-                const imageInCategory = category.images.find( image => image === e)
-                imageInCategory.description = e.description
-                const newCategory = {category: e.category, images: imageInCategory}
-                const unchangedCategories = categories.filter(singleCategory => singleCategory.category !== newCategory.category)
-                debugger
-                this.setState({categories: [...unchangedCategories, newCategory]})
-            }
-        )
-    }
+    // saveDescription(e) {
+    //     const {description} = this.state
+    //     const {categories} = this.props
+    //         categories.filter(category => category.category == e.category).map( category => {
+    //             const imageInCategory = category.images.find( image => image === e)
+    //             const noImageInCategory = category.images.filter( image => image !== e )
+    //             imageInCategory.description = description
+    //             const newCategory = {category: e.category, images: [imageInCategory, ...noImageInCategory]}
+    //             const unchangedCategories = categories.filter(singleCategory => singleCategory.category !== newCategory.category)
+    //             this.setState({categories: [...unchangedCategories, newCategory]})
+    //         }
+    //     )
+    // }
 
+    handleDescriptionChange(e) {
+        const value = e.target.value;
+        this.setState({description: value});
+        return value
+    }
 
 
     removeImage(e) {
-        const {categories} = this.props
+        const {categories} = this.state
         categories.filter(category => category.category == e.category).map( category => {    
                 const noImageInCategory = category.images.filter( image => image !== e )
                 const newCategory = {category: e.category, images: noImageInCategory}
@@ -54,6 +68,7 @@ class ImageListing extends Component {
                         profileImage={images.category === 'Profile' ? true:false}
                         removeImage={this.removeImage}
                         saveDescription={this.saveDescription}
+                        handleDescriptionChange={this.handleDescriptionChange}
                     />
                 </div>
             )
