@@ -1,9 +1,9 @@
-import {GET_IMAGES} from '../actions/types'
+import {GET_CATEGORIES} from '../actions/types'
 
-export function ImageReducer(state = [], action) {
+export function CategoriesReducer(state = [], action) {
     switch(action.type) {
-        case GET_IMAGES:
-            return [...state, action]
+        case GET_CATEGORIES:
+            return [...action.payload]
         default:
             return state
     }

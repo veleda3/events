@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
-import {ImageReducer} from './imagesReducer'
+import {CategoriesReducer} from './imagesReducer'
+import {CategoryReducer} from '../reducers/categoryReducer'
 
 export default combineReducers({
-   Images: ImageReducer
+    categories: CategoriesReducer
 })
