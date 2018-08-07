@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux';
 import {gql} from 'apollo-boost'
 import {graphql} from 'react-apollo'
-import {imageData} from '../../data/images'
-import * as actions from '../../redux/actions/imagesActions'
 import CategoryListing from './categoryListing'
 
 const getCategoriesQuery = gql`
@@ -14,22 +11,29 @@ const getCategoriesQuery = gql`
                 image
                 description
                 ranking
-                categoryId
+                id
+                category{
+                    name
+                }
             }        
         }
     }
 `
 
 class ImageListing extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            categories: imageData,
+
+    displayImages(){
+        const {data} = this.props
+
+        if(data.loading){
+            return (
+                <div>Data still loading</div>
+            )
+        }else {
+            return this.renderCategories()
         }
-        this.removeImage = this.removeImage.bind(this)
+    
     }
-
-
 
     // saveDescription(e) {
     //     const {description} = this.state
@@ -51,7 +55,6 @@ class ImageListing extends Component {
         return value
     }
 
-
     removeImage(e) {
         const {categories} = this.state
         categories.filter(category => category.category == e.category).map( category => {    
@@ -67,13 +70,12 @@ class ImageListing extends Component {
     }
 
     renderCategories(){
-        debugger
-        return this.state.categories.map((images, index) => {
+        return this.props.data.categories.map((images, index) => {
             return (
                 <div key={`image-${index}`}>
                     <CategoryListing
                         key={`images-item${index}`}
-                        category={images.category}
+                        category={images.name}
                         images={images.images}
                         categoryInfo={images}
                         profileImage={images.category === 'Profile' ? true:false}
@@ -94,15 +96,12 @@ class ImageListing extends Component {
             <section id='rentalListing'>
                 <h1 className='page-title'>Edit your photos</h1>
                 <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
-                {this.renderCategories()}
+                    {this.displayImages()}
                 </div>
             </section>  
         )
     }
 }
 
-const mapStateToProps = ({categories}) => {
-    return {categories}
-}
 
 export default graphql(getCategoriesQuery)(ImageListing)

@@ -27,15 +27,15 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     const result = Array.from(list.images);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
-    return {category: list.category, images: result};
+    return result;
   };
 
 class CategoryListing extends React.Component {
     constructor(props){
         super(props) 
         this.state = {
-            category: this.props.categoryInfo
+            category: this.props.categoryInfo,
+            images: this.props.categoryInfo.images 
         }
         this.onDragEnd = this.onDragEnd.bind(this)
         this.removeImage = this.removeImage.bind(this)
@@ -60,12 +60,14 @@ class CategoryListing extends React.Component {
             result.source.index,
             result.destination.index
         );
-        this.setState({category: items})
+
+        this.setState({images: items})
     }
     
     renderImages() {
         const {profileImage, saveDescription, handleDescriptionChange} = this.props
-        const {category} = this.state
+        const {images} = this.state
+        debugger
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
@@ -74,7 +76,7 @@ class CategoryListing extends React.Component {
                         ref={provided.innerRef}   
                         className={'row'}
                     >
-                        {category.images.map((image, index) => (
+                        {images.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div 
@@ -113,10 +115,10 @@ class CategoryListing extends React.Component {
     }
 
     render() {
-        const {category} = this.state
+        const {category} = this.props
         return (   
             <section id='rentalListing'>
-                <h2>{category.category}</h2>
+                <h2>{category}</h2>
                 <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
                 {this.renderImages()}
                 </div>
