@@ -1,8 +1,6 @@
 import React from 'react'
 import Card from './imageCard'
-import {connect} from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import * as actions from '../../redux/actions/imagesActions'
 
 const grid = 8;
 
@@ -115,10 +113,10 @@ class CategoryListing extends React.Component {
     }
 
     render() {
-        const {category} = this.props
+        const {category} = this.state
         return (   
             <section id='rentalListing'>
-                <h2>{category}</h2>
+                <h2>{category.category}</h2>
                 <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
                 {this.renderImages()}
                 </div>
@@ -127,8 +125,6 @@ class CategoryListing extends React.Component {
     }
 }
 
-const mapStateToProps = ({category}) => {
-    return {category}
-}
 
-export default connect(mapStateToProps, actions)(CategoryListing)
+
+export default CategoryListing

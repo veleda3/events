@@ -1,25 +1,35 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
+import {gql} from 'apollo-boost'
+import {graphql} from 'react-apollo'
 import {imageData} from '../../data/images'
 import * as actions from '../../redux/actions/imagesActions'
 import CategoryListing from './categoryListing'
 
-
+const getCategoriesQuery = gql`
+    {
+        categories {
+            name
+            images {
+                image
+                description
+                ranking
+                categoryId
+            }        
+        }
+    }
+`
 
 class ImageListing extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            categories: [],
-            description: ''
+            categories: imageData,
         }
         this.removeImage = this.removeImage.bind(this)
     }
 
-    componentDidMount() {
-        this.props.getCategories()
-        this.setState({categories: imageData})
-    }
+
 
     // saveDescription(e) {
     //     const {description} = this.state
@@ -57,7 +67,8 @@ class ImageListing extends Component {
     }
 
     renderCategories(){
-        return this.props.categories.map((images, index) => {
+        debugger
+        return this.state.categories.map((images, index) => {
             return (
                 <div key={`image-${index}`}>
                     <CategoryListing
@@ -94,4 +105,4 @@ const mapStateToProps = ({categories}) => {
     return {categories}
 }
 
-export default connect(mapStateToProps, actions)(ImageListing)
+export default graphql(getCategoriesQuery)(ImageListing)
