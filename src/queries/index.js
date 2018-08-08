@@ -17,10 +17,23 @@ export const getCategoriesQuery = gql`
 }
 `
 
+//mutations
+
 export const deleteImageQuery = gql`
     mutation deleteImage($id: ID!) {
         deleteImage(id: $id) {
             id
+        }
+    }
+`
+export const updateImage = gql`
+    mutation updateImage($id: ID!, $description: String!){
+        updateImage(
+            id: $id,
+            description: $description
+        ){
+        image
+        description
         }
     }
 `

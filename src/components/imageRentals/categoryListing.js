@@ -72,7 +72,7 @@ class CategoryListing extends React.Component {
     }
     
     renderImages() {
-        const {profileImage, saveDescription, handleDescriptionChange} = this.props
+        const {profileImage, saveDescription, handleDescriptionChange, updateImage} = this.props
         const {images} = this.state
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
@@ -98,6 +98,7 @@ class CategoryListing extends React.Component {
                                         <Card 
                                             key={`image-${index}`}  
                                             image={image.image}
+                                            imageId={image.id}
                                             description={image.description}
                                             profileImage={profileImage}
                                             moveCard={this.moveCard}
@@ -105,6 +106,7 @@ class CategoryListing extends React.Component {
                                             removeImage={this.removeImage}
                                             saveDescription={saveDescription}
                                             handleDescriptionChange={handleDescriptionChange}
+                                            updateImage={updateImage}
                                         />
                                     </div>
                                 )}

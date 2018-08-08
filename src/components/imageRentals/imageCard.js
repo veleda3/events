@@ -7,7 +7,8 @@ class Card extends React.Component {
         super(props);
         this.state = {
             editing: false, 
-            description: this.props.description
+            description: this.props.description,
+            id: this.props.imageId
         }
         this.saveDescription = this.saveDescription.bind(this)
     }
@@ -19,6 +20,14 @@ class Card extends React.Component {
     saveDescription(e) {
         e.preventDefault();
         this.setState({editing: false, description: this.state.cache, cache: undefined})
+        const {id, description} = this.state
+        this.props.updateImage({
+            variables: {
+                id: id,
+                description: this.state.cache
+            }
+        })
+
     }
 
     cancel(e) {
