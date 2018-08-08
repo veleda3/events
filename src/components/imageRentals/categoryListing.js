@@ -2,6 +2,7 @@ import React from 'react'
 import Card from './imageCard'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+
 const grid = 8;
 
 const getListStyle = isDraggingOver => ({
@@ -43,11 +44,17 @@ class CategoryListing extends React.Component {
     }
 
     removeImage(e) {
-        const {category} = this.state
-                const noImageInCategory = category.images.filter( image => image !== e )
-                this.setState(
-                    {category: {category: category.category, images: noImageInCategory}}
-                )     
+        const {images} = this.state
+            const noImageInCategory = images.filter( image => image !== e )
+            this.setState(
+                {images: noImageInCategory}
+            ) 
+                
+        this.props.deleteImage({
+            variables: {
+                id: e.id
+            }
+        })   
     }
     
     onDragEnd(result) {
@@ -67,7 +74,6 @@ class CategoryListing extends React.Component {
     renderImages() {
         const {profileImage, saveDescription, handleDescriptionChange} = this.props
         const {images} = this.state
-        debugger
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
@@ -93,8 +99,6 @@ class CategoryListing extends React.Component {
                                             key={`image-${index}`}  
                                             image={image.image}
                                             description={image.description}
-                                            Ranking={image.Ranking}
-                                            createdAt={image.createdAt}
                                             profileImage={profileImage}
                                             moveCard={this.moveCard}
                                             imageInfo={image}

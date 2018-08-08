@@ -1,31 +1,15 @@
 import React, { Component } from 'react'
 import {gql} from 'apollo-boost'
-import {graphql} from 'react-apollo'
+import {graphql, compose} from 'react-apollo'
 import CategoryListing from './categoryListing'
-
-const getCategoriesQuery = gql`
-    {
-        categories {
-            name
-            images {
-                image
-                description
-                ranking
-                id
-                category{
-                    name
-                }
-            }        
-        }
-    }
-`
+import {getCategoriesQuery, deleteImageQuery} from '../../queries'
 
 class ImageListing extends Component {
 
     displayImages(){
-        const {data} = this.props
+        const {getCategoriesQuery} = this.props
 
-        if(data.loading){
+        if(getCategoriesQuery.loading){
             return (
                 <div>Data still loading</div>
             )
@@ -35,42 +19,15 @@ class ImageListing extends Component {
     
     }
 
-    // saveDescription(e) {
-    //     const {description} = this.state
-    //     const {categories} = this.props
-    //         categories.filter(category => category.category == e.category).map( category => {
-    //             const imageInCategory = category.images.find( image => image === e)
-    //             const noImageInCategory = category.images.filter( image => image !== e )
-    //             imageInCategory.description = description
-    //             const newCategory = {category: e.category, images: [imageInCategory, ...noImageInCategory]}
-    //             const unchangedCategories = categories.filter(singleCategory => singleCategory.category !== newCategory.category)
-    //             this.setState({categories: [...unchangedCategories, newCategory]})
-    //         }
-    //     )
-    // }
-
     handleDescriptionChange(e) {
         const value = e.target.value;
         this.setState({description: value});
         return value
     }
 
-    removeImage(e) {
-        const {categories} = this.state
-        categories.filter(category => category.category == e.category).map( category => {    
-                const noImageInCategory = category.images.filter( image => image !== e )
-                const newCategory = {category: e.category, images: noImageInCategory}
-                const unchangedCategories = categories.filter(singleCategory => 
-                singleCategory.category !== newCategory.category)
-                this.setState(
-                    {categories: [...unchangedCategories, newCategory]}
-                )
-            }
-        )       
-    }
-
     renderCategories(){
-        return this.props.data.categories.map((images, index) => {
+        const {deleteImageQuery, getCategoriesQuery} = this.props
+        return getCategoriesQuery.categories.map((images, index) => {
             return (
                 <div key={`image-${index}`}>
                     <CategoryListing
@@ -79,9 +36,8 @@ class ImageListing extends Component {
                         images={images.images}
                         categoryInfo={images}
                         profileImage={images.category === 'Profile' ? true:false}
-                        removeImage={this.removeImage}
-                        saveDescription={this.saveDescription}
                         handleDescriptionChange={this.handleDescriptionChange}
+                        deleteImage={deleteImageQuery}
                     />
                 </div>
             )
@@ -104,4 +60,7 @@ class ImageListing extends Component {
 }
 
 
-export default graphql(getCategoriesQuery)(ImageListing)
+export default compose(
+    graphql(getCategoriesQuery, {name: "getCategoriesQuery"}),
+    graphql(deleteImageQuery, { name: "deleteImageQuery"})
+)(ImageListing)
