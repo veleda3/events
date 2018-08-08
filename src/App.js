@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {Provider} from 'react-redux';
-import store from './redux/store'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ApolloClient from 'apollo-boost'
 import {ApolloProvider} from 'react-apollo'
 import ImageListing from './components/imageRentals/imageListing'
@@ -16,15 +15,15 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-
-          <div className="App">
-            <div className='container'>
-              <ImageListing />
-              <div className="card-container">
+          <Router>
+            <div className="App">
+              <div className='container'>
+                <ImageListing Route={Route} Link={Link}/>
+                <div className="card-container">
+                </div>
               </div>
             </div>
-          </div>
-
+          </Router>
       </ApolloProvider>
     );
   }

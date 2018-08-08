@@ -1,59 +1,60 @@
 import React, { Component } from 'react'
-import {gql} from 'apollo-boost'
 import {graphql, compose} from 'react-apollo'
 import CategoryListing from './categoryListing'
 import {getCategoriesQuery, deleteImageQuery, updateImage} from '../../queries'
 
 class ImageListing extends Component {
 
-    displayImages(){
-        const {getCategoriesQuery} = this.props
+    displayCategories(){
+        const {
+            deleteImageQuery, 
+            getCategoriesQuery, 
+            updateImage, 
+            Route
+        } = this.props
 
-        if(getCategoriesQuery.loading){
-            return (
-                <div>Data still loading</div>
-            )
-        }else {
-            return this.renderCategories()
-        }
+            return getCategoriesQuery.categories.map((category, index) => {
+                return <Route path={`/${category.name}`} render={() => 
+                    <CategoryListing 
+                        key={`images-item${index}`}
+                        category={category.name}
+                        images={category.images}
+                        categoryInfo={category}
+                        profileImage={category.category === 'Profile' ? true:false}
+                        handleDescriptionChange={this.handleDescriptionChange}
+                        deleteImage={deleteImageQuery}
+                        updateImage={updateImage} 
+
+                    />}
+
+                />
+            })
+        
+
     
     }
 
-    handleDescriptionChange(e) {
-        const value = e.target.value;
-        this.setState({description: value});
-        return value
-    }
-
-    renderCategories(){
-        const {deleteImageQuery, getCategoriesQuery, updateImage} = this.props
-        return getCategoriesQuery.categories.map((images, index) => {
-            return (
-                <div key={`image-${index}`}>
-                    <CategoryListing
-                        key={`images-item${index}`}
-                        category={images.name}
-                        images={images.images}
-                        categoryInfo={images}
-                        profileImage={images.category === 'Profile' ? true:false}
-                        handleDescriptionChange={this.handleDescriptionChange}
-                        deleteImage={deleteImageQuery}
-                        updateImage={updateImage}
-                    />
-                </div>
-            )
-        })
-    }
-
-
-
-
     render () {
+        const {Link, Route, getCategoriesQuery,} = this.props
         return (
             <section id='rentalListing'>
-                <h1 className='page-title'>Edit your photos</h1>
+            <h1 className='page-title'>Edit your photos</h1>
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/Profile">Profile</Link>
+                        </li>
+                        <li>
+                            <Link to="/Home Rentals">Home Rentals</Link>
+                        </li>
+                        <li>
+                            <Link to="/Planning">Planning</Link>
+                        </li>
+                    </ul>
+                </div>
                 <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
-                    {this.displayImages()}
+                    {getCategoriesQuery.loading ? <div>Data still loading</div> : this.displayCategories()}
+
                 </div>
             </section>  
         )
