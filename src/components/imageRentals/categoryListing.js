@@ -1,8 +1,7 @@
 import React from 'react'
 import Card from './imageCard'
-import {connect} from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import * as actions from '../../redux/actions/imagesActions'
+
 
 const grid = 8;
 
@@ -19,7 +18,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     margin: `0 ${grid}px 0 0`,
   
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : 'white',
   
     // styles we need to apply on draggables
     ...draggableStyle,
@@ -29,15 +28,15 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     const result = Array.from(list.images);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
-    return {category: list.category, images: result};
+    return result;
   };
 
 class CategoryListing extends React.Component {
     constructor(props){
         super(props) 
         this.state = {
-            category: this.props.categoryInfo
+            category: this.props.categoryInfo,
+            images: this.props.categoryInfo.images 
         }
         this.onDragEnd = this.onDragEnd.bind(this)
         this.removeImage = this.removeImage.bind(this)
@@ -45,11 +44,17 @@ class CategoryListing extends React.Component {
     }
 
     removeImage(e) {
-        const {category} = this.state
-                const noImageInCategory = category.images.filter( image => image !== e )
-                this.setState(
-                    {category: {category: category.category, images: noImageInCategory}}
-                )     
+        const {images} = this.state
+            const noImageInCategory = images.filter( image => image !== e )
+            this.setState(
+                {images: noImageInCategory}
+            ) 
+                
+        this.props.deleteImage({
+            variables: {
+                id: e.id
+            }
+        })   
     }
     
     onDragEnd(result) {
@@ -62,12 +67,13 @@ class CategoryListing extends React.Component {
             result.source.index,
             result.destination.index
         );
-        this.setState({category: items})
+
+        this.setState({images: items})
     }
     
     renderImages() {
-        const {profileImage, saveDescription, handleDescriptionChange} = this.props
-        const {category} = this.state
+        const {profileImage, saveDescription, handleDescriptionChange, updateImage} = this.props
+        const {images} = this.state
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
@@ -76,7 +82,7 @@ class CategoryListing extends React.Component {
                         ref={provided.innerRef}   
                         className={'row'}
                     >
-                        {category.images.map((image, index) => (
+                        {images.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div 
@@ -92,15 +98,15 @@ class CategoryListing extends React.Component {
                                         <Card 
                                             key={`image-${index}`}  
                                             image={image.image}
+                                            imageId={image.id}
                                             description={image.description}
-                                            Ranking={image.Ranking}
-                                            createdAt={image.createdAt}
                                             profileImage={profileImage}
                                             moveCard={this.moveCard}
                                             imageInfo={image}
                                             removeImage={this.removeImage}
                                             saveDescription={saveDescription}
                                             handleDescriptionChange={handleDescriptionChange}
+                                            updateImage={updateImage}
                                         />
                                     </div>
                                 )}
@@ -127,8 +133,6 @@ class CategoryListing extends React.Component {
     }
 }
 
-const mapStateToProps = ({category}) => {
-    return {category}
-}
 
-export default connect(mapStateToProps, actions)(CategoryListing)
+
+export default CategoryListing

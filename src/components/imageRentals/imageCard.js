@@ -1,19 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 
 
 
 class Card extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {editing: false, description: ''}
+        this.state = {
+            editing: false, 
+            description: this.props.description,
+            id: this.props.imageId
+        }
         this.saveDescription = this.saveDescription.bind(this)
-    }
-
-    componentDidMount() {
-        const {description} = this.props
-        this.setState({description})
     }
 
     edit() {
@@ -23,6 +20,14 @@ class Card extends React.Component {
     saveDescription(e) {
         e.preventDefault();
         this.setState({editing: false, description: this.state.cache, cache: undefined})
+        const {id, description} = this.state
+        this.props.updateImage({
+            variables: {
+                id: id,
+                description: this.state.cache
+            }
+        })
+
     }
 
     cancel(e) {
@@ -37,8 +42,8 @@ class Card extends React.Component {
     renderDisplay() {
         return (
             <div>
-                <p>{this.state.description}</p>
-                <button onClick={this.edit.bind(this)}>Edit</button>
+                <p><span className='badge badge-secondary'>Description:</span> {this.state.description}</p>
+                <button className='btn btn-primary' onClick={this.edit.bind(this)}>Edit</button>
             </div>
         )
     }
@@ -48,10 +53,10 @@ class Card extends React.Component {
         const {description} = this.state
         return (
             <div>
-                <form>
-                <textarea name="" id="" cols="30" rows="3" value={this.state.cache} onChange={this.handleChange.bind(this)}></textarea>
-                <button onClick={this.saveDescription}>Save</button>
-                    <button onClick={this.cancel.bind(this)}>Cancel</button>
+                <form className='form-group'>
+                <textarea className='form-control' name="" id="" cols="30" rows="3" value={this.state.cache} onChange={this.handleChange.bind(this)}></textarea>
+                <button className='btn btn-success' onClick={this.saveDescription}>Save</button>
+                    <button className='btn btn-danger'onClick={this.cancel.bind(this)}>Cancel</button>
                 </form>
             </div>
         )
@@ -59,10 +64,7 @@ class Card extends React.Component {
     
     render() {
         const {
-            image, 
-            description, 
-            createdAt, 
-            Ranking, 
+            image,   
             isDragging,
             removeImage,
             imageInfo
@@ -73,12 +75,10 @@ class Card extends React.Component {
                     <div className='card bwm-card'>
                         <img className='card-img-top' src={image} alt=''></img>
                         <div className='card-block'>
-                            <h6 className='card-subtitle'> image Ranking: {Ranking}</h6>
                             <p className='card-text'>{this.state.editing ? this.renderForm() : this.renderDisplay()}
                             </p>
-                            <a href='' className='card-link'>last changed at:{createdAt}</a>
                         </div>
-                        <button onClick={() => removeImage(imageInfo)}>delete me</button>
+                        <button className='btn btn-danger' onClick={() => removeImage(imageInfo)}>delete me</button>
                     </div>
                 </div>
                 )
