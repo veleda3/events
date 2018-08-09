@@ -11,7 +11,7 @@ class Card extends React.Component {
             categoryChange: false,
             id: this.props.imageId,
             categories: [ 
-                {Category: 'Profile', id: '5b69037e7b00a709276a3077'}, {Category: 'Home Rentals', id: '5b6904ae7b00a709276a3079'}, {Category:'Planing', id: '5b6904b77b00a709276a307a'}
+                {Category: 'Profile', id: '5b69037e7b00a709276a3077'}, {Category: 'Home Rentals', id: '5b6904ae7b00a709276a3079'}, {Category:'Planning', id: '5b6904b77b00a709276a307a'}
             ] 
         }
         this.saveDescription = this.saveDescription.bind(this)

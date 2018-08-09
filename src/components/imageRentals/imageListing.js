@@ -5,19 +5,57 @@ import {getCategoriesQuery, deleteImageQuery, updateImage, addImage} from '../..
 
 class ImageListing extends Component {
 
+    constructor(props){
+        super(props)
+        this.state = {
+            categories: []
+        }
+        this.displayCategories = this.displayCategories.bind(this)
+        this.updateCategories = this.updateCategories.bind(this)
+    }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.getCategoriesQuery.loading !== this.props.getCategoriesQuery.loading && this.props.getCategoriesQuery.loading === false) {
+            this.setState({ 
+                categories: this.props.getCategoriesQuery.categories
+            })
+        }
+    }
 
+    updateCategories(e){
+        const {imageInfo, category} = e
+        const {categories} = this.state
+        const {addImage} = this.props
+        let categoryToUpdate = JSON.parse(JSON.stringify(categories.find(single => category.Category === single.name)))
+        let updatedImages = [...categoryToUpdate.images, imageInfo]
+        categoryToUpdate.images = updatedImages
+        const unchangedCategories = categories.filter(single => category.Category !== single.name)
+        let updatedCategories = [...unchangedCategories, categoryToUpdate]
+        this.setState({categories: updatedCategories})
+        addImage({
+            variables: {
+                image: imageInfo.image,
+                description: imageInfo.description,
+                ranking: imageInfo.ranking,
+                categoryId: category.id
+
+            }
+        }) 
+
+    }
 
     displayCategories(){
         const {
             deleteImageQuery, 
-            getCategoriesQuery,
             addImage,
             updateImage, 
             Route,
         } = this.props
 
-            return getCategoriesQuery.categories.map((category, index) => {
+        const {categories} = this.state
+
+
+            return categories.map((category, index) => {
                 return <Route path={`/${category.name}`} render={() => 
                     <CategoryListing 
                         key={`images-item${index}`}
@@ -28,7 +66,7 @@ class ImageListing extends Component {
                         handleDescriptionChange={this.handleDescriptionChange}
                         deleteImage={deleteImageQuery}
                         updateImage={updateImage}
-                        categories={getCategoriesQuery.categories}
+                        updateCategories={this.updateCategories}
                         addImage={addImage}
 
                     />}
@@ -41,26 +79,13 @@ class ImageListing extends Component {
     }
 
     render () {
-        const {Link, Route, getCategoriesQuery,} = this.props
+        const {Link, getCategoriesQuery,} = this.props
         return (
             <section id='rentalListing'>
             <h1 className='page-title'>Edit your photos</h1>
-                <div>
-                    <ul>
-                        <li>
-                            <Link to="/Profile">Profile</Link>
-                        </li>
-                        <li>
-                            <Link to="/Home Rentals">Home Rentals</Link>
-                        </li>
-                        <li>
-                            <Link to="/Planning">Planning</Link>
-                        </li>
-                    </ul>
-                </div>
+                
                 <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
-                    {getCategoriesQuery.loading ? <div>Data still loading</div> : this.displayCategories()}
-
+                {getCategoriesQuery.loading ? <div>Images are loading</div>: this.displayCategories()}
                 </div>
             </section>  
         )
