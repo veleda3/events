@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ApolloClient from 'apollo-boost'
 import {ApolloProvider} from 'react-apollo'
 import ImageListing from './components/imageRentals/imageListing'
+import {Header} from './components/header/header'
 import './App.css';
 
 
@@ -18,7 +19,8 @@ class App extends Component {
           <Router>
             <div className="App">
               <div className='container'>
-                <ImageListing Route={Route} Link={Link}/>
+                <Header Link={Link}/>
+                <ImageListing Route={Route}/>
                 <div className="card-container">
                 </div>
               </div>

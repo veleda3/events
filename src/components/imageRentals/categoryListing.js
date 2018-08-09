@@ -77,27 +77,17 @@ class CategoryListing extends React.Component {
     changeCategories(e) {
         const {images} = this.state
         const {imageInfo, category} = e
-        const {addImage, deleteImage} = this.props
+        const {addImage, deleteImage, updateCategories} = this.props
         const categoryWithoutImage = images.filter(image => image !== e.imageInfo)
-
-        addImage({
-            variables: {
-                image: imageInfo.image,
-                description: imageInfo.description,
-                ranking: imageInfo.ranking,
-                categoryId: category.id
-
-            }
-        }) 
+        updateCategories(e)
+        this.setState(
+            {images: categoryWithoutImage}
+        )
         deleteImage({
             variables: {
                 id: e.id
             }
-        })
-        this.setState(
-            {images: categoryWithoutImage}
-        )
-        
+        })       
     }
     
     renderImages() {
