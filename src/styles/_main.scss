@@ -3,32 +3,45 @@
 @import 'rental-images/imageRentals.scss';
 
 
-*, :after, :before {
-    box-sizing: inherit;
+html,
+body {
+  font-family: sans-serif;
+  height: calc(100% + 150px); // Force page v-scroll
+  margin: 0;
+  padding: 0;
 }
 
-div {
-    display: block;
-}
+/*
+ * Header
+ */
 
-img {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 100%;
-    height: auto;
-    -ms-interpolation-mode: bicubic;
-}
+ .header {
+  border: 0;
+  border-bottom: solid $color-deep-blue;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 
-a {
-    line-height: inherit;
-    color: $darkOrange;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.page-title {
+  .name {
     font-size: 30px;
-    font-weight: 400;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    font-weight: bold;
+    margin-top: 35px;
+  }
+
+  .description {
+    font-size: 20px;
+    margin-top: 3px;
+  }
+
+  .links {
+    margin-top: 25px;
+
+    a {
+      color: $color-deep-blue;
+      font-size: 20px;
+      font-weight: lighter;
+      margin: 0 10px;
+    }
+  }
 }
+

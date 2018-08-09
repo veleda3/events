@@ -1,74 +1,3 @@
-nav, section {
-  display: block; }
-
-.Header {
-  width: 100%;
-  background-color: #ffffff;
-  border-top: 4px solid #f5efed; }
-  .Header .Header-row {
-    max-width: 64rem;
-    margin-right: auto;
-    margin-left: auto;
-    position: relative;
-    height: 96px; }
-  .Header .Header-menu {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    left: 28px;
-    width: 16px;
-    height: 12px;
-    cursor: pointer;
-    background-color: #fff; }
-  .Header .Header-leftSide .Header-navLink:not(:last-child) {
-    width: 33.33%;
-    text-align: left; }
-  .Header .Header-rightSide .Header-navLink:not(:last-child) {
-    width: 33.33%;
-    text-align: left; }
-  .Header .Header-logo {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-  .Header svg {
-    width: 195 !important;
-    height: 90 !important; }
-
-@media print, screen and (min-width: 64em) {
-  .Header-row {
-    height: auto; }
-  .Header-menu {
-    display: none; }
-  .Header-navLink {
-    display: inline-block;
-    font-family: Open Sans,Arial,sans-serif;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    font-size: 10px;
-    margin-top: 78px;
-    margin-bottom: 48px;
-    color: #484848; }
-  .Header-leftSide {
-    width: 20%;
-    float: left;
-    text-align: left; }
-  .Header-rightSide {
-    width: 41.66667%;
-    float: right;
-    text-align: right; } }
-
-@media print, screen and (min-width: 40em) {
-  .Header-leftSide {
-    padding-right: .75rem;
-    padding-left: .75rem; }
-  .Header-rightSide {
-    padding-right: .75rem;
-    padding-left: .75rem; } }
-
 #rentalListing .title {
   font-size: 30px;
   font-weight: 700;
@@ -93,27 +22,33 @@ nav, section {
       color: #7e7e7e;
       margin-bottom: 0; }
 
-*, :after, :before {
-  box-sizing: inherit; }
+html,
+body {
+  font-family: sans-serif;
+  height: calc(100% + 150px);
+  margin: 0;
+  padding: 0; }
 
-div {
-  display: block; }
-
-img {
+/*
+ * Header
+ */
+.header {
+  border: 0;
+  border-bottom: solid #1367e4;
   display: inline-block;
-  vertical-align: middle;
-  max-width: 100%;
-  height: auto;
-  -ms-interpolation-mode: bicubic; }
-
-a {
-  line-height: inherit;
-  color: #d93900;
-  text-decoration: none;
-  cursor: pointer; }
-
-.page-title {
-  font-size: 30px;
-  font-weight: 400;
-  margin-top: 20px;
-  margin-bottom: 20px; }
+  text-align: center;
+  width: 100%; }
+  .header .name {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 35px; }
+  .header .description {
+    font-size: 20px;
+    margin-top: 3px; }
+  .header .links {
+    margin-top: 25px; }
+    .header .links a {
+      color: #1367e4;
+      font-size: 20px;
+      font-weight: lighter;
+      margin: 0 10px; }
