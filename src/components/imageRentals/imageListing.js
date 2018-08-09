@@ -18,7 +18,8 @@ class ImageListing extends Component {
         if(prevProps.getCategoriesQuery.loading !== this.props.getCategoriesQuery.loading && this.props.getCategoriesQuery.loading === false) {
             this.setState({ 
                 categories: this.props.getCategoriesQuery.categories
-            })
+            }, () => {console.log(this.state.categories)})
+            
         }
     }
 
@@ -32,6 +33,7 @@ class ImageListing extends Component {
         const unchangedCategories = categories.filter(single => category.Category !== single.name)
         let updatedCategories = [...unchangedCategories, categoryToUpdate]
         this.setState({categories: updatedCategories})
+
         addImage({
             variables: {
                 image: imageInfo.image,
@@ -53,10 +55,8 @@ class ImageListing extends Component {
         } = this.props
 
         const {categories} = this.state
-
-
             return categories.map((category, index) => {
-                return <Route path={`/${category.name}`} render={() => 
+                return <Route key={`route-item${index}`} path={`/${category.name}`} render={() => 
                     <CategoryListing 
                         key={`images-item${index}`}
                         category={category.name}
@@ -82,10 +82,10 @@ class ImageListing extends Component {
         const {Link, getCategoriesQuery,} = this.props
         return (
             <section id='rentalListing'>
-            <h1 className='page-title'>Edit your photos</h1>
-                
-                <div className='row' style={{overflowX : 'auto',fontSize: '14px'}}>
-                {getCategoriesQuery.loading ? <div>Images are loading</div>: this.displayCategories()}
+                <div className="content">
+                    <div className='row'>
+                    {getCategoriesQuery.loading ? <div>Images are loading</div>: this.displayCategories()}
+                    </div>
                 </div>
             </section>  
         )

@@ -47,29 +47,14 @@ class Card extends React.Component {
         const {changeCategory} = this.props
         return (
             <div>
-                <p><span className='badge badge-secondary'>Description:</span> {this.state.description}</p>
-                <button className='btn btn-primary' onClick={this.edit.bind(this)}>Edit</button>
+                <div>
+                    <p><span className='badge badge-secondary'>Description:</span> {this.state.description}</p>
+                </div>
+                <div style={{margin: 3, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
+                    <button className='btn btn-primary' onClick={this.edit.bind(this)}>Edit</button>
+                </div>
             </div>
         )
-    }
-
-    changeCategories(e) {
-
-
-        // const {categories, imageInfo} = this.props
-        // const oldCategory = imageInfo.category.name
-        // const newCategory = e
-        // let categoryToDelete = categories.find( category => category.name === oldCategory )
-        // const indexOfImage  = categoryToDelete.images.indexOf(imageInfo)
-        // let updatedOldImages = categoryToDelete.images.filter(image => image !== imageInfo )
-        // categoryToDelete = updatedOldImages
-        // debugger
-        // const test = categories.filter(category => category.name !== oldCategory)
-        // let categoryToAdd = categories.find( category => category === newCategory )
-        // categoryToAdd.images.push(imageInfo)
-        // categories[newCategory] = categoryToAdd.images
-
-       
     }
 
     changeCategory() {
@@ -92,7 +77,11 @@ class Card extends React.Component {
     }
 
     renderNoCategoryChange() { 
-        return <button className='btn btn-success' onClick={this.changeCategory.bind(this)}>Change Category</button>
+        return (
+            <div style={{margin: 3, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
+                <button className='btn btn-success' onClick={this.changeCategory.bind(this)}>Change Category</button>
+            </div>
+        )
     }
     
     renderForm() {
@@ -103,7 +92,7 @@ class Card extends React.Component {
                 <form className='form-group'>
                 <textarea className='form-control' name="" id="" cols="30" rows="3" value={this.state.cache} onChange={this.handleChange.bind(this)}></textarea>
                 <button className='btn btn-success' onClick={this.saveDescription}>Save</button>
-                    <button className='btn btn-danger'onClick={this.cancel.bind(this)}>Cancel</button>
+                <button className='btn btn-danger'onClick={this.cancel.bind(this)}>Cancel</button>
                     
                 </form>
             </div>
@@ -127,7 +116,9 @@ class Card extends React.Component {
                             <div className='card-text'>{this.state.editing ? this.renderForm() : this.renderDisplay()}
                             </div>
                         </div>
-                        <button className='btn btn-danger' onClick={() => removeImage(imageInfo)}>delete me</button>
+                        <div style={{margin: 3, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
+                            <button className='btn btn-danger' onClick={() => removeImage(imageInfo)}>delete me</button>
+                        </div>
                         {this.state.categoryChange ? this.renderCategories() : this.renderNoCategoryChange()}
                     </div>
                 </div>

@@ -16,7 +16,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     margin: `0 ${grid}px 0 0`,
-  
+    marginBottom: 20,
     // change background colour if dragging
     background: isDragging ? 'lightgreen' : 'white',
   
@@ -77,34 +77,40 @@ class CategoryListing extends React.Component {
     changeCategories(e) {
         const {images} = this.state
         const {imageInfo, category} = e
-        const {addImage, deleteImage, updateCategories} = this.props
-        const categoryWithoutImage = images.filter(image => image !== e.imageInfo)
-        updateCategories(e)
+        const {deleteImage, updateCategories} = this.props
+        const categoryWithoutImage = images.filter(image => image !== imageInfo)
         this.setState(
-            {images: categoryWithoutImage}
+            {images: categoryWithoutImage}, console.log(this.state.images)
         )
+        debugger
         deleteImage({
             variables: {
-                id: e.id
+                id: imageInfo.id
             }
-        })       
+        }) 
+        updateCategories(e)      
     }
     
     renderImages() {
         const {profileImage, saveDescription, handleDescriptionChange, updateImage, changeCategory, categories } = this.props
         const {images} = this.state
         return (
+            
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable" direction="horizontal">
                     {(provided, snapshot) => (
+                    <div className="container">
                     <div
                         ref={provided.innerRef}   
-                        className={'row'}
+                        className={'row justify-content-center'}
+                        style={{marginBottom: 50}}
                     >
+                    
                         {images.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
                                     <div 
+                                        className='card bwm-card'
                                         ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
@@ -135,6 +141,7 @@ class CategoryListing extends React.Component {
                         ))}
                         {provided.placeholder}
                     </div>
+                    </div>
                     )}
                 </Droppable>
             </DragDropContext>
@@ -142,6 +149,7 @@ class CategoryListing extends React.Component {
     }
 
     render() {
+    
         const {category} = this.props
         return (   
             <section id='rentalListing'>
