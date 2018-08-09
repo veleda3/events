@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import {graphql, compose} from 'react-apollo'
 import CategoryListing from './categoryListing'
-import {getCategoriesQuery, deleteImageQuery, updateImage} from '../../queries'
+import {getCategoriesQuery, deleteImageQuery, updateImage, addImage} from '../../queries'
 
 class ImageListing extends Component {
+
+
+
 
     displayCategories(){
         const {
             deleteImageQuery, 
-            getCategoriesQuery, 
+            getCategoriesQuery,
+            addImage,
             updateImage, 
-            Route
+            Route,
         } = this.props
 
             return getCategoriesQuery.categories.map((category, index) => {
@@ -23,7 +27,9 @@ class ImageListing extends Component {
                         profileImage={category.category === 'Profile' ? true:false}
                         handleDescriptionChange={this.handleDescriptionChange}
                         deleteImage={deleteImageQuery}
-                        updateImage={updateImage} 
+                        updateImage={updateImage}
+                        categories={getCategoriesQuery.categories}
+                        addImage={addImage}
 
                     />}
 
@@ -65,5 +71,6 @@ class ImageListing extends Component {
 export default compose(
     graphql(getCategoriesQuery, {name: "getCategoriesQuery"}),
     graphql(deleteImageQuery, { name: "deleteImageQuery"}),
-    graphql(updateImage, {name: "updateImage"})
+    graphql(updateImage, {name: "updateImage"}),
+    graphql(addImage, {name: "addImage"})
 )(ImageListing)

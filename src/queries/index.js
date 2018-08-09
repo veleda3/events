@@ -37,3 +37,22 @@ export const updateImage = gql`
         }
     }
 `
+
+export const addImage = gql`
+    mutation addImage(
+        $image: String!,
+        $description: String!,
+        $ranking: Int!,
+        $categoryId: ID!){
+            addImage(
+                image: $image,
+                description: $description,
+                ranking: $ranking,
+                categoryId: $categoryId
+            ){
+            image
+            description
+            ranking
+            }
+        }
+`

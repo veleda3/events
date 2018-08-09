@@ -40,6 +40,7 @@ class CategoryListing extends React.Component {
         }
         this.onDragEnd = this.onDragEnd.bind(this)
         this.removeImage = this.removeImage.bind(this)
+        this.changeCategories = this.changeCategories.bind(this)
         
     }
 
@@ -56,6 +57,7 @@ class CategoryListing extends React.Component {
             }
         })   
     }
+
     
     onDragEnd(result) {
         // dropped outside the list
@@ -70,9 +72,36 @@ class CategoryListing extends React.Component {
 
         this.setState({images: items})
     }
+
+
+    changeCategories(e) {
+        const {images} = this.state
+        const {imageInfo, category} = e
+        const {addImage, deleteImage} = this.props
+        const categoryWithoutImage = images.filter(image => image !== e.imageInfo)
+
+        addImage({
+            variables: {
+                image: imageInfo.image,
+                description: imageInfo.description,
+                ranking: imageInfo.ranking,
+                categoryId: category.id
+
+            }
+        }) 
+        deleteImage({
+            variables: {
+                id: e.id
+            }
+        })
+        this.setState(
+            {images: categoryWithoutImage}
+        )
+        
+    }
     
     renderImages() {
-        const {profileImage, saveDescription, handleDescriptionChange, updateImage} = this.props
+        const {profileImage, saveDescription, handleDescriptionChange, updateImage, changeCategory, categories } = this.props
         const {images} = this.state
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
@@ -107,6 +136,8 @@ class CategoryListing extends React.Component {
                                             saveDescription={saveDescription}
                                             handleDescriptionChange={handleDescriptionChange}
                                             updateImage={updateImage}
+                                            categories={categories}
+                                            changeCategories={this.changeCategories}
                                         />
                                     </div>
                                 )}
