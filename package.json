@@ -1,7 +1,7 @@
 {
   "name": "react-starter-bwm",
   "version": "0.1.0",
-  "engine": {
+  "engines": {
     "node": "10.6.0",
     "npm": "6.1.0"
   },
