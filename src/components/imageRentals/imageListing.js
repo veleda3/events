@@ -58,7 +58,7 @@ class ImageListing extends Component {
 
         const {categories} = this.state
             return categories.map((category, index) => {
-                return <Route key={`route-item${index}`} path={category.name === 'Profile' ?  '/' : `${categoriy.name}`} render={() => 
+                return <Route key={`route-item${index}`} path={category.name === 'Profile' ?  '/' : `${category.name}`} render={() => 
                     <CategoryListing 
                         key={`images-item${index}`}
                         category={category.name}
