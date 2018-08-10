@@ -1,35 +1,7 @@
 import React from 'react'
 import Card from './imageCard'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
-
-const grid = 8;
-
-const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    display: 'flex',
-    padding: grid,
-    overflow: 'auto',
-});
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    margin: `0 ${grid}px 0 0`,
-    marginBottom: 20,
-    // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'white',
-  
-    // styles we need to apply on draggables
-    ...draggableStyle,
-  });
-
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list.images);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+import {reorder} from '../../share/dragDropHelpers'
 
 class CategoryListing extends React.Component {
     constructor(props){
@@ -103,23 +75,12 @@ class CategoryListing extends React.Component {
                     <div
                         ref={provided.innerRef}   
                         className={'row justify-content-center'}
-                        style={{marginBottom: 50}}
+                        style={{marginBottom: 50, marginTop: 50}}
                     >
                     
                         {images.map((image, index) => (
                             <Draggable key={image.id} draggableId={image.id} index={index}>
                                 {(provided, snapshot) => (
-                                    <div 
-                                        className='card bwm-card'
-                                        ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={getItemStyle(
-                                                snapshot.isDragging,
-                                                provided.draggableProps.style
-                                            )}
-                                    >
-                                    <img className='card-img-top' src={image} alt=''></img>
                                         <Card 
                                             key={`image-${index}`}  
                                             image={image.image}
@@ -134,8 +95,9 @@ class CategoryListing extends React.Component {
                                             updateImage={updateImage}
                                             categories={categories}
                                             changeCategories={this.changeCategories}
+                                            provided={provided}
+                                            snapshot={snapshot}
                                         />
-                                    </div>
                                 )}
                             </Draggable>
                         ))}

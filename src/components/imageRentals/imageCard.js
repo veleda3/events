@@ -1,4 +1,5 @@
 import React from 'react';
+import {getItemStyle} from '../../share/dragDropHelpers'
 
 
 
@@ -51,7 +52,7 @@ class Card extends React.Component {
                     <p><span className='badge badge-secondary'>Description:</span> {this.state.description}</p>
                 </div>
                 <div style={{margin: 3, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
-                    <button className='btn btn-primary' onClick={this.edit.bind(this)}>Edit</button>
+                    <button style={{paddingLeft: 64, paddingRight: 64}}className='btn btn-primary' onClick={this.edit.bind(this)}>Edit</button>
                 </div>
             </div>
         )
@@ -106,32 +107,40 @@ class Card extends React.Component {
             isDragging,
             removeImage,
             imageInfo,
+            provided,
+            snapshot
         } = this.props
         const opacity = isDragging ? 0 : 1;
         return (
+                <div 
+                    className='card bwm-card'
+                    ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                        )}
+                >
+                <div className='thumb1'>
+                    <img className='card-img-top' src={image} alt=''></img>
+                </div>
                 <div style={{opacity}}>
-                    <div className='card bwm-card'>
-                        <img className='card-img-top' src={image} alt=''></img>
+
+
                         <div className='card-block'>
                             <div className='card-text'>{this.state.editing ? this.renderForm() : this.renderDisplay()}
                             </div>
                         </div>
                         <div style={{margin: 3, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
-                            <button className='btn btn-danger' onClick={() => removeImage(imageInfo)}>delete me</button>
+                            <button style={{paddingLeft: 41, paddingRight: 41}} className='btn btn-danger' onClick={() => removeImage(imageInfo)}>delete me</button>
                         </div>
                         {this.state.categoryChange ? this.renderCategories() : this.renderNoCategoryChange()}
-                    </div>
+                </div>
                 </div>
                 )
     }    
 }
 
-const style = {
-    border: '1px dashed gray',
-    padding: '0.5rem 1rem',
-    marginBottom: '.5rem',
-    backgroundColor: 'white',
-    cursor: 'move',
-  };
-  
+
 export default Card

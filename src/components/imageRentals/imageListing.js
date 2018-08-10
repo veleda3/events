@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {graphql, compose} from 'react-apollo'
 import CategoryListing from './categoryListing'
+import {Loading} from '../../share/loading'
 import {getCategoriesQuery, deleteImageQuery, updateImage, addImage} from '../../queries'
 
 class ImageListing extends Component {
@@ -84,7 +85,7 @@ class ImageListing extends Component {
             <section id='rentalListing'>
                 <div className="content">
                     <div className='row'>
-                    {getCategoriesQuery.loading ? <div>Images are loading</div>: this.displayCategories()}
+                    {getCategoriesQuery.loading ? <Loading />: this.displayCategories()}
                     </div>
                 </div>
             </section>  
