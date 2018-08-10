@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ApolloClient from 'apollo-boost'
 import {ApolloProvider} from 'react-apollo'
 import ImageListing from './components/imageRentals/imageListing'
-import {Header, Nav} from './components/header/header'
+import {Header} from './components/header/header'
 import './App.css';
 
 

@@ -25,7 +25,7 @@ class Card extends React.Component {
     saveDescription(e) {
         e.preventDefault();
         this.setState({editing: false, description: this.state.cache, cache: undefined})
-        const {id, description} = this.state
+        const {id} = this.state
         this.props.updateImage({
             variables: {
                 id: id,
@@ -45,7 +45,6 @@ class Card extends React.Component {
       }
 
     renderDisplay() {
-        const {changeCategory} = this.props
         return (
             <div>
                 <div>
@@ -86,8 +85,6 @@ class Card extends React.Component {
     }
     
     renderForm() {
-        const {mageInfo} = this.props
-        const {description} = this.state
         return (
             <div>
                 <form className='form-group'>
