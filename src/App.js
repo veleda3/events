@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import ApolloClient from 'apollo-boost'
 import {ApolloProvider} from 'react-apollo'
 import ImageListing from './components/imageRentals/imageListing'
@@ -25,7 +25,7 @@ class App extends Component {
             <div className="App">
               <div className='container'>
               <Header borderBottomWidth={ this.props.bottomBorderWidth } Link={Link} />
-              <ImageListing Route={Route}/>
+              <ImageListing Route={Route} Redirect={Redirect}/>
                 <div className="card-container">
                 </div>
               </div>

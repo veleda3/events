@@ -53,11 +53,12 @@ class ImageListing extends Component {
             addImage,
             updateImage, 
             Route,
+            Redirect
         } = this.props
 
         const {categories} = this.state
             return categories.map((category, index) => {
-                return <Route key={`route-item${index}`} path={`/${category.name}`} render={() => 
+                return <Route key={`route-item${index}`} path={category.name === 'Profile' ?  '/' : `${categoriy.name}`} render={() => 
                     <CategoryListing 
                         key={`images-item${index}`}
                         category={category.name}
@@ -80,7 +81,7 @@ class ImageListing extends Component {
     }
 
     render () {
-        const {getCategoriesQuery,} = this.props
+        const {getCategoriesQuery} = this.props
         return (
             <section id='rentalListing'>
                 <div className="content">
