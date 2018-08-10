@@ -48,7 +48,7 @@ class CategoryListing extends React.Component {
 
     changeCategories(e) {
         const {images} = this.state
-        const {imageInfo, category} = e
+        const {imageInfo} = e
         const {deleteImage, updateCategories} = this.props
         const categoryWithoutImage = images.filter(image => image !== imageInfo)
         this.setState(
@@ -64,7 +64,7 @@ class CategoryListing extends React.Component {
     }
     
     renderImages() {
-        const {profileImage, saveDescription, handleDescriptionChange, updateImage, changeCategory, categories } = this.props
+        const {profileImage, saveDescription, handleDescriptionChange, updateImage, categories } = this.props
         const {images} = this.state
         return (
             

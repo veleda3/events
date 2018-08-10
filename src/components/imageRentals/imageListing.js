@@ -80,7 +80,7 @@ class ImageListing extends Component {
     }
 
     render () {
-        const {Link, getCategoriesQuery,} = this.props
+        const {getCategoriesQuery,} = this.props
         return (
             <section id='rentalListing'>
                 <div className="content">
